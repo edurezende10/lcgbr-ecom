@@ -1,0 +1,30 @@
+.footer-wrapper {
+  width: 100vw;
+  padding: 20px;
+  background-color: black;
+  margin-top: 5%;
+  color: white;
+}
+.footer--container{
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    align-items: baseline;
+}
+.footer--text__container{
+    width: 30vw;
+}
+.footer--text__container p{
+    margin-top: 20px;
+}
+.footer--links.footer--links__active{
+    font-weight: bold;
+}
+.footer--links__container{
+    margin: 0 50px;
+
+}
+.footer--links__container li{
+    text-align: center;
+}
+

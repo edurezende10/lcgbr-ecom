@@ -1,0 +1,43 @@
+.product--wrapper {
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+}
+.product--text {
+  flex: 1;
+  padding: 80px 15px;
+}
+.product--text h2 {
+  font-size: 2em;
+}
+.product--text p {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.product--selectBox__container {
+  margin-top: 30px;
+  border-top: solid 1px #e5dbdb;
+  padding: 20px 0;
+}
+.product--selectBox__container select {
+  width: 60px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.product--img__container {
+  flex: 1;
+  width: 50%;
+  height: 600px;
+  position: relative;
+  display: block;
+  margin: 0 auto;
+}
+.product--img {
+  width: 70%;
+  height: 70%;  
+  display: block;
+  margin: 0 auto;
+  
+}

@@ -1,0 +1,27 @@
+.Card--container {
+  border: 1px solid #95989a;
+  border-radius: 12px;
+  display: inline-block;
+  margin-top: 40px;
+  height: 400px;
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.Card--img {
+  width: 20vw;
+  height: 60%;
+  border-radius: 12px;
+}
+.Card--desc {
+  text-align: center;
+  font-size: 1.2rem;
+}
+.Card--price {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
