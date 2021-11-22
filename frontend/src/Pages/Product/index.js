@@ -21,6 +21,7 @@ const ProductPage = () => {
     }
     console.log(product)
     runApi()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[id])
   const {title,price,description,image} = product
  
