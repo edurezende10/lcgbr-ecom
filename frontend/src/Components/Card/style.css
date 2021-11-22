@@ -10,10 +10,17 @@
   align-items: center;
   justify-content: space-around;
 }
-.Card--img {
+.Card--img__link{
+  margin: 0;
+  padding: 0;
   width: 20vw;
   height: 60%;
+}
+.Card--img {
+  width: 20vw;
+  height: 100%;
   border-radius: 12px;
+
 }
 .Card--desc {
   text-align: center;

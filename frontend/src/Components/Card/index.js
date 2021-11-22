@@ -3,15 +3,18 @@ import img from './camiseta.jpg'
 import ButtonAddToCart from '../ButtonAddToCart'
 import './style.css'
 
-function Card() {
+function Card({product}) {
+    const {image,title,price,id} = product
     return (
         <div className="Card--container">
-            <img className="Card--img" src={img} alt="" />
-            <p className="Card--desc">Camiseta 705</p>
-            <p className="Card--price">R$ 100</p>
-            <a className="Card--add" href="http://">Add to Cart</a>
+            <a className="Card--img__link" href={`/product/${id}`}>
+                <img className="Card--img" src={image} alt=" " />
+            </a>
+            <p className="Card--desc">{title}</p>
+            <p class-Name="Card--price">{price}</p>
+           
             <ButtonAddToCart />
-        </div>  
+        </div>
     )
 }
 

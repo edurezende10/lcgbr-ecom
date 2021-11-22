@@ -1,21 +1,35 @@
 import React from 'react';
 import img from './camiseta.png';
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
+import {getSingleProduct} from '../../services/apiFakeStore'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import { useParams } from 'react-router-dom';
 import './style.css';
 
-const index = () => {
+const ProductPage = () => {
+  const [product,setProduct]= React.useState([])
+  const {id} = useParams()
+  React.useEffect(()=>{
+    const runApi = async ()=>{
+      try {
+        const response = await getSingleProduct(id)
+        setProduct (response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    console.log(product)
+    runApi()
+  },[id])
+  const {title,price,description,image} = product
+ 
   return (
     <div className="product--wrapper">
       <div className="product--text">
-        <h2>Camiseta</h2>
+        <h2>{title}</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. A cupiditate
-          unde vero? Sunt ex quidem hic ipsa odit sequi culpa corrupti magni,
-          soluta eum voluptates laboriosam natus excepturi odio atque. soluta
-          eum voluptates laboriosam natus excepturi odio atque. soluta eum
-          voluptates laboriosam natus excepturi odio atque.
+          {description}
         </p>
         <div className="product--selectBox__container">
           <h3>Tamanho</h3>
@@ -27,20 +41,21 @@ const index = () => {
             <option value="valor3">G</option>
           </select>
         </div>
+        <p className="product--price">{
+          `R$ ${price}`
+          }</p>
         <ButtonAddToCart />
       </div>
       <div className="product--img__container">
         <Carousel className="product--img" dynamicHeight="true" >
           <div>
-            <img  src={img} />
+            <img  src={image} alt="" />
           </div>
-          <div>
-            <img src="assets/2.jpeg" />
-          </div>
+          
         </Carousel>
       </div>
     </div>
   );
 };
 
-export default index;
+export default ProductPage;

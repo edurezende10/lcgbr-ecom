@@ -2,7 +2,7 @@ import './style.css';
 import React from 'react';
 import MobileNavegation from './MobileNavegation';
 import Navegation from './Navegation';
-import LogoTitle from '../LogoTitle';
+import img from './logo.png'
 
 const Header = () => {
 
@@ -10,7 +10,11 @@ const Header = () => {
     <header className="header">
       <nav className="header-wrapper">
       <div className="logoTitle--container">
-        <LogoTitle/>
+
+       
+        <img className="logo" src={img} alt=" "/>
+
+
 
       </div>
 

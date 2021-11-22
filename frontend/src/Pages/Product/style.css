@@ -25,19 +25,30 @@
   text-align: center;
   margin-top: 10px;
 }
+.product--price{
+  margin: 20px 0;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
 
 .product--img__container {
   flex: 1;
+  display: flex;
   width: 50%;
   height: 600px;
-  position: relative;
-  display: block;
-  margin: 0 auto;
+  margin: 5% auto;
+ 
+}
+.carousel .slide img{
+  width: 65% ;
+  
 }
 .product--img {
   width: 70%;
   height: 70%;  
   display: block;
   margin: 0 auto;
+ 
+
   
 }
