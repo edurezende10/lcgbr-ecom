@@ -1,0 +1,21 @@
+.FormRegistration--container{
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    
+    justify-content: center;
+    
+    padding: 2rem;
+}
+.FormRegistration--container__personalData{
+    margin: 0 20px;
+}
+.FormRegistration--label{
+    display: block;
+    font-size: .9rem;
+}
+.FormRegistration--submit{
+    padding: 5px;
+    margin: 20px 0;
+}

@@ -1,8 +1,23 @@
-import React from 'react';
+import React, {useContext,useState} from 'react';
 import { BiCart } from 'react-icons/bi';
+import {CartContext} from '../CartContext';
+import ModalCart from '../ModalCart';
 import './style.css';
 
 const NavLinks = () => {
+ const [cart] = useContext(CartContext); 
+  const [isModalVisible,setIsModalVisible] = useState(false)
+
+  const showModal = () => {
+    
+    setIsModalVisible(true);
+}
+const hideModal = () => {
+    
+  setIsModalVisible(false);
+}
+
+
   return (
     <>
       <ul>
@@ -22,10 +37,11 @@ const NavLinks = () => {
             Sobre
           </a>
         </li>
-        <li>
-          <a href="/meuspedidos" className="header__nav__item">
+        <li className="cart-icon__container">
+          <button onClick={showModal} className="header__nav__item icon-cart">
             <BiCart className="cart-icon" />
-          </a>
+          </button>
+          <span>{cart.length}</span>
         </li>
 
         <li>
@@ -34,6 +50,10 @@ const NavLinks = () => {
           </a>
         </li>
       </ul>
+     
+      
+      {isModalVisible? <ModalCart cart={cart} hideModal={hideModal} />: null}
+
     </>
   );
 };

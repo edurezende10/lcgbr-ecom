@@ -2,8 +2,11 @@ import React from 'react'
 import './style.css'
 
 const ButtonAddToCart = () => {
+    const addToCart = ()=>{
+        console.log('clicked')
+    }
     return (
-        <a className="Btn-add-to-card" href="http://">Add to Cart</a>
+        <button onClick={addToCart} className="Btn-add-to-card" href="http://">Add to Cart</button>
             
         
     )

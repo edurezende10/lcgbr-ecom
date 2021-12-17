@@ -1,5 +1,5 @@
 import React from 'react';
-import img from './camiseta.png';
+
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
 import {getSingleProduct} from '../../services/apiFakeStore'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader

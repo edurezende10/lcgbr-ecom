@@ -1,19 +1,40 @@
-import React from 'react'
-import img from './camiseta.jpg'
-import ButtonAddToCart from '../ButtonAddToCart'
+import React, { useContext } from 'react';
+import { CartContext } from '../CartContext';
+import { toast } from 'react-toastify';
+
+
 import './style.css'
 
-function Card({product}) {
-    const {image,title,price,id} = product
+function Card(props) {
+    const { image, title, price, id } = props.product
+    const [cart,setCart] = useContext(CartContext);
+    console.log(cart)
+
+  const addToCart = () => {
+    const item = {image, title, price, id };
+    setCart(currentState => [...currentState, item]);
+    toast.success('Produto Adicionado ao carrinho', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      
+      draggable: true,
+      progress: undefined,
+      });
+    
+  }
     return (
         <div className="Card--container">
             <a className="Card--img__link" href={`/product/${id}`}>
                 <img className="Card--img" src={image} alt=" " />
             </a>
             <p className="Card--desc">{title}</p>
-            <p class-Name="Card--price">{price}</p>
-           
-            <ButtonAddToCart />
+            <p className="Card--price">{price}</p>
+            <button onClick={addToCart}>Add to cart</button>
+
+
+            
         </div>
     )
 }

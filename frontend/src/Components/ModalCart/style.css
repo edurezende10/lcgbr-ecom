@@ -1,0 +1,143 @@
+div.ModalCart{
+    width: 100%;
+    height: 100vh;
+    background-color:rgba(0, 0, 0, .8);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ModalCart--btn__container{
+    background-color: transparent;
+    border: none;
+  
+    
+    text-align: right;
+    
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 100%;
+
+    
+    
+}
+                 
+.ModalCart--btn__close{
+    margin: 20px;
+    color:#000;
+    cursor: pointer;
+
+
+}
+.ModalCart--title{
+    text-align: center;
+    font-size: 2rem;
+}
+.ModalCart--container{
+    width: 60%;
+    height: 80%;
+    background-color: white;
+    overflow: hidden;
+}
+.ModalCart--content{
+    display: flex;
+    
+    height: 85%;
+}
+.ModalCart--content__container{
+    width: 90%;
+    height: auto;
+    display: flex; 
+    flex: 1;
+   flex-direction: column;
+   overflow-y: auto;
+   overflow-x: hidden;
+   
+   direction: rtl;   
+}
+.ModalCart--content__product{
+    display: flex;
+    width: 100%;
+    margin: 20px;
+    
+}
+.ModalCart--content__total{
+    width: 50%;
+    height: 90%;
+    display: flex;
+    align-items: flex-end;
+    
+    
+   
+    
+    
+    
+}
+
+.container-basket{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 25px;
+}
+.ModalCart--content__btn {
+   
+    display: flex;
+    width: 100%;
+    margin-top: 20%;
+   
+   
+}
+
+.ModalCart--content__btn  a {
+    
+   font-size: .8rem;
+    width: 150px;
+    margin-right: 20px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+   
+}
+.btn-accent{
+    background-color: rgb(60,189,175);
+    color: white;
+}
+.btn-light{
+    color:rgb(60,189,175);
+    border: 1px solid rgb(60,189,175);
+
+}
+
+
+.ModalCart--content__image{
+    width: 100px;
+    height: 100px;
+    display: block;
+}
+.ModalCart--content__text{
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 20px;
+  
+    font-size: .8rem;
+}
+.ModalCart--content__text .ModalCart--content__name{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    direction: ltr;
+
+}
+.ModalCart--content__name{
+    color: #000;
+}

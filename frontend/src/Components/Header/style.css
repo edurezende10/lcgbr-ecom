@@ -34,6 +34,13 @@
   font-size: 1.125em;
   z-index: 1000;
 }
+.header__nav__item.icon-cart{
+  background-color: transparent;
+  border: none;
+  margin: 0 0 0 24px;
+  font-size: 1.125em;
+  z-index: 1000;
+}
 .link-destaque {
   border: #fcd000 2px solid;
   background: #fcd000;
@@ -98,4 +105,26 @@
   .MobileNavigation ul li {
     padding: 10px;
   }
+}
+.cart-icon__container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cart-icon__container span{
+  color:white;
+  font-size: .8rem;
+  border-radius:50%;
+  background-color: red;
+  padding: 4px;
+  position: absolute;
+  bottom: 20px;
+  left: 40px;
+  font-weight: bold;
+
+  
+}
+.teste{
+  color: #fff;
 }

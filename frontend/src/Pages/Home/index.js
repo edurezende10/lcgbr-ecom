@@ -34,8 +34,8 @@ const Home = () => {
         <div className="shelf--container">
           { 
             products.map((product)=>{
-              console.log(product)
-              return <Card product={product} />
+             
+              return <Card product={product} key={product.id} />
             })
           }
          
