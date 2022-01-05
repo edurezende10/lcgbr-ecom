@@ -1,0 +1,59 @@
+.container--payment{
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+.container--payment__title{
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
+.container--paymentBox{
+    display: flex;
+    justify-content: center;
+    
+
+}
+.paymentType label{
+   
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.icon-payment-type{
+    margin-right:10px;
+    margin-left:10px;
+    font-size: 1.5rem;
+    position: relative;
+    top: 5px;
+}
+.container--paymentType{
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 15px;
+}
+.container--paymentType label{
+    display: block;
+    margin:10px 0;
+    
+}
+.card-info label input{
+    display: block;
+    padding: 5px;
+}
+.payment-button--container{
+    
+    text-align: right;
+    width: 50%;
+    margin: 0 auto;
+}
+.payment-button{
+    background-color: rgb(60,189,175);
+    color: white;
+    border: 0;
+    padding: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    
+}

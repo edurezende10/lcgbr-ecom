@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import CpfCnpj from "@react-br-forms/cpf-cnpj-mask";
+import cep from 'cep-promise'
+import DataLayer from "../DataLayer";
+
 
 
 import './style.css'
@@ -7,25 +10,54 @@ import './style.css'
 const FormRegistration = () => {
     const [cpfCnpj, setCpfCnpj] = useState("");
     const [mask, setMask] = useState("");
-    
+
+    console.log(mask)
+
+    let getAddress = async (e) => {
+        try {
+            let result = await cep(e)
+            console.log(result)
+            return result
+
+        } catch (error) {
+            console.log(error)
+            alert("cep incorreto")
+
+        }
+
+
+    }
+    React.useEffect(() => {
+        DataLayer.push(
+            {
+                'event': 'initiateCheckout'
+            }
+        )
+    }, [])
+
+
+
+
+
 
     return (
+
         <form className="FormRegistration--container" method="post"  >
             <div className="FormRegistration--container__personalData">
                 <div>
-                    <label className="FormRegistration--label" for="name">Nome Completo: </label>
-                    <input className="FormRegistration--input" type="text" name="name"  />
+                    <label className="FormRegistration--label" htmlFor="name">Nome Completo: </label>
+                    <input className="FormRegistration--input" type="text" name="name" />
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="email">email: </label>
-                    <input type="email" name="email"  />
+                    <label className="FormRegistration--label" htmlFor="email">email: </label>
+                    <input type="email" name="email" />
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="password">Senha: </label>
-                    <input type="password" name="password"  />
+                    <label className="FormRegistration--label" htmlFor="password">Senha: </label>
+                    <input type="password" name="password" />
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="email">CPF: </label>
+                    <label className="FormRegistration--label" htmlFor="email">CPF: </label>
                     <CpfCnpj
                         className="customizedInput"
                         placeholder="Digite um CPF ou CNPJ"
@@ -38,41 +70,44 @@ const FormRegistration = () => {
                     />
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="nasc">Data de nascimento: </label>
-                    <input type="date" name="nasc"  />
+                    <label className="FormRegistration--label" htmlFor="nasc">Data de nascimento: </label>
+                    <input type="date" name="nasc" />
                 </div>
             </div>
             <div className="FormRegistration--container__address">
                 <div>
-                    <label className="FormRegistration--label" for="cep">CEP: </label>
-                    <input type="text" name="cep"  />
+                    <label className="FormRegistration--label" htmlFor="cep">CEP: </label>
+                    <input type="text" onBlur={(e) => getAddress(e.target.value)} name="cep" />
+
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="rua">Rua: </label>
-                    <input type="text" name="rua"  />
+                    <label className="FormRegistration--label" htmlFor="rua">Rua: </label>
+
+                    <input type="text" name="rua" />
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="number">Número: </label>
-                    <input type="text" name="number"  />
+                    <label className="FormRegistration--label" htmlFor="number">Número: </label>
+                    <input type="text" name="number" />
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="bairro">Bairro: </label>
-                    <input type="text" name="bairro"  />
+                    <label className="FormRegistration--label" htmlFor="bairro">Bairro: </label>
+                    <input type="text" name="bairro" />
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="cidade">Cidade: </label>
-                    <input type="text" name="cidade"  />
+                    <label className="FormRegistration--label" htmlFor="cidade">Cidade: </label>
+                    <input type="text" name="cidade" />
                 </div>
                 <div>
-                    <label className="FormRegistration--label" for="estado">Estado: </label>
-                    <input type="text" name="estado"  />
+                    <label className="FormRegistration--label" htmlFor="estado">Estado: </label>
+                    <input type="text" name="estado" />
                 </div>
-               
+
             </div>
 
 
 
         </form>
+
 
     )
 }

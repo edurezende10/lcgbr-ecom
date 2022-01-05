@@ -14,6 +14,9 @@
   padding: 16px;
   width: 100vw;
 }
+.shelf--container{
+  padding-bottom:5%;
+}
 .banner-principal__title {
   color: #fff;
   font-size: 32px;

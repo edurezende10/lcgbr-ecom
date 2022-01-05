@@ -5,6 +5,7 @@
   "dependencies": {
     "@react-br-forms/cpf-cnpj-mask": "^1.0.6",
     "axios": "^0.24.0",
+    "cep-promise": "^4.1.1",
     "cra-template": "1.1.2",
     "frete": "^0.3.2",
     "react": "^17.0.2",

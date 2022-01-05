@@ -1,20 +1,24 @@
 import React from 'react';
 
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
-import {getSingleProduct} from '../../services/apiFakeStore'
+import { getSingleProduct } from '../../services/apiFakeStore'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { useParams } from 'react-router-dom';
+import DataLayer from '../../Components/DataLayer';
 import './style.css';
 
 const ProductPage = () => {
-  const [product,setProduct]= React.useState([])
-  const {id} = useParams()
-  React.useEffect(()=>{
-    const runApi = async ()=>{
+  const [product, setProduct] = React.useState([])
+  const { id } = useParams()
+
+
+  React.useEffect(() => {
+    const runApi = async () => {
       try {
         const response = await getSingleProduct(id)
-        setProduct (response.data)
+        setProduct(response.data)
+
       } catch (error) {
         console.log(error)
       }
@@ -22,9 +26,32 @@ const ProductPage = () => {
     console.log(product)
     runApi()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[id])
-  const {title,price,description,image} = product
- 
+  }, [id])
+  const { title, price, description, image } = product
+   React.useEffect(()=>{
+    const runDataLayer = ()=>{
+      if(title !== undefined && price !== undefined ){
+        DataLayer.push({
+          'ecommerce': {
+            'products': [
+              {
+                id: id,
+                name: title,
+                price: price
+              }
+            ]
+          },
+          'event': 'productDetail'
+        })
+      }
+      
+    
+    }
+    runDataLayer()
+    
+  },[product.title,product.price,id,price,title])
+
+
   return (
     <div className="product--wrapper">
       <div className="product--text">
@@ -44,15 +71,16 @@ const ProductPage = () => {
         </div>
         <p className="product--price">{
           `R$ ${price}`
-          }</p>
+        }</p>
         <ButtonAddToCart />
       </div>
       <div className="product--img__container">
         <Carousel className="product--img" dynamicHeight="true" >
           <div>
-            <img  src={image} alt="" />
+            <img src={image} alt="" />
           </div>
           
+
         </Carousel>
       </div>
     </div>
