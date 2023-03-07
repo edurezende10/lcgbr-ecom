@@ -11,16 +11,13 @@ const FormRegistration = () => {
     const [cpfCnpj, setCpfCnpj] = useState("");
     const [mask, setMask] = useState("");
 
-    console.log(mask)
 
     let getAddress = async (e) => {
         try {
             let result = await cep(e)
-            console.log(result)
             return result
 
         } catch (error) {
-            console.log(error)
             alert("cep incorreto")
 
         }

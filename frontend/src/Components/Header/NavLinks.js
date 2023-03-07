@@ -5,6 +5,7 @@ import ModalCart from '../ModalCart';
 import './style.css';
 
 const NavLinks = () => {
+  
  const [cart] = useContext(CartContext); 
   const [isModalVisible,setIsModalVisible] = useState(false)
 

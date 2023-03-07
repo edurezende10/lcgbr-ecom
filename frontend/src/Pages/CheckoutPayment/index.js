@@ -11,6 +11,7 @@ const CheckoutPayment = () => {
     const history = useHistory();
 const handleClick = ()=>{
     history.push("/checkout/finish/success")
+    localStorage.removeItem('cart')
 }
     return (
         <div className="container--payment">

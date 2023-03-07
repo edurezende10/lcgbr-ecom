@@ -10,25 +10,29 @@ import DataLayer from '../../Components/DataLayer';
 
 const ResumeCart = () => {
     const [cart] = useContext(CartContext);
+    const totalPrice = cart.reduce((acc,curr)=> acc+curr.price,0)
+
     React.useEffect(()=>{
         const runDataLayer = ()=>{
+          let productsCart=[]
+          cart.forEach(function(item){                
+            productsCart.push({
+                item_id: item.id,
+                item_name: item.title,
+                price: item.price,
+            })
+        })
           if(cart !== undefined  ){
             DataLayer.push({
               'ecommerce': {
-                'products': [
-                    
-                 
-                ]
+                'products':productsCart,
+                'currency':'BRL',
+                'value':totalPrice
               },
-              'event': 'viewCart'
+              'event': 'view_cart'
             })
-            cart.forEach(function(item){
-                DataLayer[1].ecommerce.products.push({
-                    id: item.id,
-                    name: item.title,
-                    price: item.price,
-                })
-            });
+            
+           
 
           }
          
@@ -38,7 +42,7 @@ const ResumeCart = () => {
         }
         runDataLayer()
         
-      },[cart])
+      },[cart,totalPrice])
     return (
         <>
             <div className="resumeCart">

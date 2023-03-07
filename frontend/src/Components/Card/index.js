@@ -7,12 +7,11 @@ import DataLayer from '../DataLayer';
 import './style.css'
 
 function Card(props) {
-    const { image, title, price, id } = props.product
+    const { images, title, price, id } = props.product
     const [cart, setCart] = useContext(CartContext);
-    console.log(cart)
 
     const addToCart = () => {
-        const item = { image, title, price, id };
+        const item = { images, title, price, id };
         setCart(currentState => [...currentState, item]);
         toast.success('Produto Adicionado ao carrinho', {
             position: "top-right",
@@ -46,7 +45,7 @@ function Card(props) {
     return (
         <div className="Card--container">
             <a className="Card--img__link" href={`/product/${id}`}>
-                <img className="Card--img" src={image} alt=" " />
+                <img className="Card--img" src={images[0]} alt=" " />
             </a>
             <p className="Card--desc">{title}</p>
             <p className="Card--price">{price}</p>

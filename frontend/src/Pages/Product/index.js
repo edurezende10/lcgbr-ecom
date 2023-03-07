@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
 import { getSingleProduct } from '../../services/apiFakeStore'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
@@ -14,42 +13,41 @@ const ProductPage = () => {
 
 
   React.useEffect(() => {
-    const runApi = async () => {
+    const runApi = () => {
       try {
-        const response = await getSingleProduct(id)
-        setProduct(response.data)
+        const response = getSingleProduct(id)
 
+        setProduct(response[0])
       } catch (error) {
-        console.log(error)
       }
     }
-    console.log(product)
     runApi()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
-  const { title, price, description, image } = product
-   React.useEffect(()=>{
-    const runDataLayer = ()=>{
-      if(title !== undefined && price !== undefined ){
+  let { title, price, description, images } = product
+  React.useEffect(() => {
+    const runDataLayer = () => {
+      if (title && price) {
         DataLayer.push({
           'ecommerce': {
             'products': [
               {
-                id: id,
-                name: title,
+                item_id: id,
+                item_name: title,
                 price: price
               }
             ]
           },
-          'event': 'productDetail'
+          'event': 'view_item'
         })
       }
-      
-    
+
+
+
+
     }
     runDataLayer()
-    
-  },[product.title,product.price,id,price,title])
+  }, [id,price,title])
 
 
   return (
@@ -58,6 +56,7 @@ const ProductPage = () => {
         <h2>{title}</h2>
         <p>
           {description}
+
         </p>
         <div className="product--selectBox__container">
           <h3>Tamanho</h3>
@@ -72,14 +71,14 @@ const ProductPage = () => {
         <p className="product--price">{
           `R$ ${price}`
         }</p>
-        <ButtonAddToCart />
+        <ButtonAddToCart product={product} />
       </div>
       <div className="product--img__container">
         <Carousel className="product--img" dynamicHeight="true" >
           <div>
-            <img src={image} alt="" />
+            <img src={'images'} alt="" />
           </div>
-          
+
 
         </Carousel>
       </div>

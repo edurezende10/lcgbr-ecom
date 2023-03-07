@@ -6,6 +6,7 @@ const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart")|| '[]')
 
 export const CartProvider = (props) => {
   
+  
   const [cart, setCart] = useState(cartFromLocalStorage);
   useEffect(()=>{
     localStorage.setItem("cart",JSON.stringify(cart))
