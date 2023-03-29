@@ -49,7 +49,7 @@ function Card(props) {
             </a>
             <p className="Card--desc">{title}</p>
             <p className="Card--price">{price}</p>
-            <button onClick={addToCart}>Add to carts</button>
+            <button onClick={addToCart}>Add to cart</button>
             
 
 
