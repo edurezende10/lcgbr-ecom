@@ -30,7 +30,8 @@ const FormRegistration = () => {
                 'event': 'initiateCheckout'
             }
         )
-    }, [])
+        console.log(mask)
+    }, [mask])
 
 
 
