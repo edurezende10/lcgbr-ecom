@@ -22,7 +22,7 @@ function Card(props) {
             draggable: true,
             progress: undefined,
         });
-
+        console.log(cart)
 
         DataLayer.push(
             {
