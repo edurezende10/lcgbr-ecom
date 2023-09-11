@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import CpfCnpj from "@react-br-forms/cpf-cnpj-mask";
-import cep from 'cep-promise'
+import React from "react";
+
 import DataLayer from "../DataLayer";
 
 
@@ -8,19 +7,11 @@ import DataLayer from "../DataLayer";
 import './style.css'
 
 const FormRegistration = () => {
-    const [cpfCnpj, setCpfCnpj] = useState("");
-    const [mask, setMask] = useState("");
+   
 
 
     let getAddress = async (e) => {
-        try {
-            let result = await cep(e)
-            return result
-
-        } catch (error) {
-            alert("cep incorreto")
-
-        }
+        
 
 
     }
@@ -30,8 +21,8 @@ const FormRegistration = () => {
                 'event': 'initiateCheckout'
             }
         )
-        console.log(mask)
-    }, [mask])
+        
+    }, [])
 
 
 
@@ -56,16 +47,7 @@ const FormRegistration = () => {
                 </div>
                 <div>
                     <label className="FormRegistration--label" htmlFor="email">CPF: </label>
-                    <CpfCnpj
-                        className="customizedInput"
-                        placeholder="Digite um CPF ou CNPJ"
-                        type="tel"
-                        value={cpfCnpj}
-                        onChange={(event, type) => {
-                            setCpfCnpj(event.target.value);
-                            setMask(type === "CPF");
-                        }}
-                    />
+                    
                 </div>
                 <div>
                     <label className="FormRegistration--label" htmlFor="nasc">Data de nascimento: </label>
