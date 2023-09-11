@@ -24,7 +24,7 @@ const ProductPage = () => {
     runApi()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
-  let { title, price, description, images } = product
+  let { title, price, description } = product
   React.useEffect(() => {
     const runDataLayer = () => {
       if (title && price) {
