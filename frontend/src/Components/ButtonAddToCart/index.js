@@ -1,10 +1,25 @@
-import React from 'react'
-import './style.css'
+import React, { useContext } from 'react';
+import { CartContext } from '../CartContext';
+import './style.css';
+import { toast } from 'react-toastify';
 import DataLayer from '../DataLayer';
 
 
 const ButtonAddToCart = ({product}) => {
+    const [cart, setCart] = useContext(CartContext);
+
     const addToCart = () => {
+        
+        setCart(currentState => [...currentState, product]);
+        toast.success('Produto Adicionado ao carrinho', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+
+            draggable: true,
+            progress: undefined,
+        });
         
         if (product.title && product.price) {
             DataLayer.push({

@@ -45,7 +45,7 @@ function Card(props) {
     return (
         <div className="Card--container">
             <a className="Card--img__link" href={`/product/${id}`}>
-                <img className="Card--img" src={images[0]} alt=" " />
+                <img className="Card--img"  alt=" " />
             </a>
             <p className="Card--desc">{title}</p>
             <p className="Card--price">{price}</p>
