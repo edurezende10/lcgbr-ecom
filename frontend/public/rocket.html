@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap Estratégico Interativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Estilos para a legenda de status */
+        .status-nao-iniciado { background-color: #e2e8f0; border-color: #94a3b8; } /* cinza */
+        .status-em-andamento { background-color: #60a5fa; border-color: #2563eb; } /* azul */
+        .status-realizado { background-color: #4ade80; border-color: #16a34a; } /* verde */
+        .status-critico { background-color: #393939; border-color: #000000; } /* preto */
+        .status-atrasado { background-color: #f87171; border-color: #dc2626; } /* vermelho */
+
+        /* Estilos para os eixos */
+        .axis-label {
+            position: absolute;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+
+        .data-axis {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .agilidade-axis {
+            bottom: 50%;
+            left: 0px;
+            transform: rotate(-90deg) translateX(50%);
+            transform-origin: left center;
+        }
+        
+        /* Legendas dos pontos (alternadas) */
+        .point-label-above, .point-label-below {
+            position: absolute;
+            font-size: 0.65rem;
+            color: #475569;
+            width: 170px;
+            line-height: 1.2;
+            pointer-events: none;
+        }
+
+        .point-label-above {
+            text-align: left;
+            /*transform-origin: top left;*/
+            transform-origin: 10px -10px;
+            transform: rotate(-65deg) translate(15px, -20px);
+        }
+
+        .point-label-below {
+            text-align: right;
+            transform-origin: 85px 150px;
+            transform: rotate(-65deg) translate(-15px, 20px);
+        }
+        
+        /* Título principal da fase no gráfico */
+        .main-stage-title {
+            position: absolute;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #0ea5e9;
+            text-transform: uppercase;
+            transform: translateX(-50%);
+            width: 160px;
+        }
+
+        /* Linha tracejada divisória */
+        .stage-delimiter {
+            position: absolute;
+            border-left: 2px dashed #d1d5db;
+            height: 200px; /* Aumentado para melhor visualização */
+            transform: translateX(-50%);
+        }
+
+        .rocket {
+            font-size: 3rem;
+            position: absolute;
+            z-index: 5;
+        }
+
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Roadmap para Direcionamento Estratégico</h1>
+            <p class="text-md md:text-lg text-slate-600 mt-2">Metodologia de transformação digital da Lima Consulting</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Gráfico do Roadmap (Direita) -->
+            <main class="w-full bg-white p-6 rounded-xl shadow-lg border border-slate-200 flex min-h-[1200px]">
+                <div id="graph-canvas" class="w-full h-full relative">
+                    <!-- Eixos -->
+                    <div class="axis-label data-axis">Dados</div>
+                    <div class="axis-label agilidade-axis">Agilidade</div>
+                    
+                    <!-- SVG para a curva -->
+                    <svg class="absolute top-0 left-0 w-full h-full">
+                        <path id="roadmap-path" d="" class="stroke-slate-300" stroke-width="3" fill="none" />
+                    </svg>
+                    
+                    <!-- Containers para os elementos do gráfico -->
+                    <div id="stage-elements-container" class="absolute top-0 left-0 w-full h-full pointer-events-none"></div>
+                    <div id="roadmap-points" class="absolute top-0 left-0 w-full h-full"></div>
+                    <div id="rocket-container" class="rocket">🚀</div>
+                </div>
+            </main>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- Painel de Controle (Esquerda) -->
+            <aside class="w-full lg:w-1/3 xl:w-2/5 bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                <h2 class="text-xl font-bold mb-4 text-slate-800">Lista de Capacidades</h2>
+                <div class="mb-6 p-4 border border-slate-200 rounded-lg">
+                    <h3 class="font-semibold mb-3 text-slate-700">Legenda de Status</h3>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div class="flex items-center"><span class="w-4 h-4 rounded-full status-nao-iniciado mr-2 border"></span> Não Iniciado</div>
+                        <div class="flex items-center"><span class="w-4 h-4 rounded-full status-em-andamento mr-2 border"></span> Em Andamento</div>
+                        <div class="flex items-center"><span class="w-4 h-4 rounded-full status-realizado mr-2 border"></span> Realizado</div>
+                        <div class="flex items-center"><span class="w-4 h-4 rounded-full status-critico mr-2 border"></span> Crítico</div>
+                        <div class="flex items-center"><span class="w-4 h-4 rounded-full status-atrasado mr-2 border"></span> Atrasado</div>
+                    </div>
+                </div>
+                <div id="capabilities-list" class="space-y-6 max-h-[800px] overflow-y-auto pr-2">
+                    <!-- A lista de capacidades será gerada pelo JavaScript -->
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        // --- DADOS DAS CAPACIDADES --- Captura de tela 2025-04-04 104015.png
+
+
+        const capabilitiesData = [
+    // Organização de Dados
+    { id: 'od1', stage: 'Organização de Dados', name: 'MarTech, Gap Analysis', status: 'atrasado' },
+    { id: 'od2', stage: 'Organização de Dados', name: 'Technical Requirements & Architecture', status: 'em-andamento' },
+    { id: 'od3', stage: 'Organização de Dados', name: 'Develop Personas', status: 'atrasado' },
+    { id: 'od4', stage: 'Organização de Dados', name: 'Data Layer Design', status: 'atrasado' },
+    { id: 'od5', stage: 'Organização de Dados', name: 'Web Content Management Capability Begins', status: 'atrasado' },
+    { id: 'od6', stage: 'Organização de Dados', name: 'Single Digital Asset Mgmt Solution', status: 'atrasado' },
+    { id: 'od7', stage: 'Organização de Dados', name: 'Establish Digital Transformation Steering Committee', status: 'nao-iniciado' },
+    { id: 'od8', stage: 'Organização de Dados', name: 'Chief Data Responsibility, Data Governance Policies & MarTech Implementation Team', status: 'atrasado' },
+
+    // Diagnóstico
+    { id: 'diag1', stage: 'Diagnóstico', name: 'Tag Management Capability Begins', status: 'atrasado' },
+    { id: 'diag2', stage: 'Diagnóstico', name: 'Develop Customer Journeys', status: 'atrasado' },
+    { id: 'diag3', stage: 'Diagnóstico', name: 'Reports by Stakeholder Group', status: 'atrasado' },
+    { id: 'diag4', stage: 'Diagnóstico', name: 'Dashboards & Alerts by Stakeholder Group', status: 'atrasado' },
+    { id: 'diag5', stage: 'Diagnóstico', name: 'Data Mgmt Platform Integrated (CDP)', status: 'em-andamento' },
+    { id: 'diag6', stage: 'Diagnóstico', name: 'Data Warehouse Capability Begins (CDP)', status: 'em-andamento' },
+    { id: 'diag7', stage: 'Diagnóstico', name: 'Digital Marketing Platforms Responsibility', status: 'em-andamento' },
+    { id: 'diag8', stage: 'Diagnóstico', name: 'Establish Program Management Office', status: 'nao-iniciado' },
+
+    // Descritivo
+    { id: 'desc1', stage: 'Descritivo', name: 'Pre-Click  Post-Click Closed-Loop Integration', status: 'em-andamento' },
+    { id: 'desc2', stage: 'Descritivo', name: 'Portfolio Based Ad Buying', status: 'critico' },
+    { id: 'desc3', stage: 'Descritivo', name: 'Integrations of Enterprise Customer Data', status: 'em-andamento' },
+    { id: 'desc4', stage: 'Descritivo', name: 'SSO/Audience Profiling 3rd Party Profile Capability', status: 'em-andamento' },
+    { id: 'desc5', stage: 'Descritivo', name: 'Customer Centric Data Begins (CDP)', status: 'em-andamento' },
+    { id: 'desc6', stage: 'Descritivo', name: 'Off line Conversions data Tracking Capability', status: 'em-andamento' },
+    { id: 'desc7', stage: 'Descritivo', name: 'End-to-End Closed Loop Conversion Attribution', status: 'critico' },
+    { id: 'desc8', stage: 'Descritivo', name: 'Data Visualizations Capability Begins (CDP)', status: 'em-andamento' },
+    { id: 'desc9', stage: 'Descritivo', name: 'Data Management Platform Capability', status: 'em-andamento' },
+
+    // Preditivo
+    { id: 'pred1', stage: 'Preditivo', name: 'Manual A|B Testing Begins', status: 'em-andamento' },
+    { id: 'pred2', stage: 'Preditivo', name: 'Programmatic Based Ad Buying', status: 'em-andamento' },
+    { id: 'pred3', stage: 'Preditivo', name: 'Attribution Modeling Capability Begins', status: 'em-andamento' },
+    { id: 'pred4', stage: 'Preditivo', name: 'SEO Platform Capability', status: 'atrasado' },
+    { id: 'pred5', stage: 'Preditivo', name: 'Conversion Optimization Capability', status: 'atrasado' },
+    { id: 'pred6', stage: 'Preditivo', name: 'Rules-Based', status: 'atrasado' },
+    { id: 'pred7', stage: 'Preditivo', name: 'Customer Analytics & Heat Maps Capability Begins', status: 'atrasado' },
+    { id: 'pred8', stage: 'Preditivo', name: 'E-mail Service Provider Optimization Begins', status: 'atrasado' },
+    { id: 'pred9', stage: 'Preditivo', name: 'Social Marketing via ads, listening, publishing, e-care & analytics', status: 'em-andamento' },
+    { id: 'pred10', stage: 'Preditivo', name: 'Portfolio Based MVT Testing Begins', status: 'em-andamento' },
+
+    // Prescritivo
+    { id: 'pres1', stage: 'Prescritivo', name: 'Lead Scoring & Sales Automation', status: 'em-andamento' },
+    { id: 'pres2', stage: 'Prescritivo', name: 'Advanced Analytics Practice Begins (Big Data Science Team) (CDP)', status: 'em-andamento' },
+    { id: 'pres3', stage: 'Prescritivo', name: 'Voice of the Customer / Chat / Survey Feedback Integrated with Respondent\'s Engagements', status: 'atrasado' },
+    { id: 'pres4', stage: 'Prescritivo', name: 'Integration with Database Marketing Platforms (CDP)', status: 'em-andamento' },
+    { id: 'pres5', stage: 'Prescritivo', name: 'Community Building Capability', status: 'nao-iniciado' },
+
+    // Cognitivo
+    { id: 'cog1', stage: 'Cognitivo', name: 'Digital Asset Manager Capability for Machine Creation of Creative', status: 'em-andamento' },
+    { id: 'cog2', stage: 'Cognitivo', name: 'Cognitive UIs accessible to all user groups (CDP)', status: 'nao-iniciado' },
+    { id: 'cog3', stage: 'Cognitivo', name: 'Deploy Computational Creative Capability', status: 'nao-iniciado' }
+];
+
+
+/*
+
+        const capabilitiesData = [
+            // Proprietary Data Organization (1st. party data)
+            { id: 'diag0', stage: 'Proprietary Data Organization (1st. party data)', name: 'Liz', status: 'realizado' },
+
+            { id: 'diag1', stage: 'Proprietary Data Organization (1st. party data)', name: 'As-is Digital Platform Assessment', status: 'realizado' },
+            { id: 'diag2', stage: 'Proprietary Data Organization (1st. party data)', name: 'Interface Gap Analysis', status: 'realizado' },
+            { id: 'diag3', stage: 'Proprietary Data Organization (1st. party data)', name: 'Technical Methodology & Architecture', status: 'realizado' },
+            { id: 'diag4', stage: 'Proprietary Data Organization (1st. party data)', name: 'Develop Personas', status: 'realizado' },
+            { id: 'diag5', stage: 'Proprietary Data Organization (1st. party data)', name: 'Data Layer Definition', status: 'realizado' },
+            { id: 'diag6', stage: 'Proprietary Data Organization (1st. party data)', name: 'Digital Data Model Design', status: 'realizado' },
+            
+
+            { id: 'diag2', stage: 'Foundation and Modernization of the Data Architecture', name: 'Interface Gap Analysis', status: 'realizado' },
+            { id: 'diag3', stage: 'Foundation and Modernization of the Data Architecture', name: 'Technical Methodology & Architecture', status: 'realizado' },
+            { id: 'diag4', stage: 'Foundation and Modernization of the Data Architecture', name: 'Develop Personas', status: 'realizado' },
+            { id: 'diag5', stage: 'Foundation and Modernization of the Data Architecture', name: 'Data Layer Definition', status: 'realizado' },
+
+            
+            // Analytics, Insights and Data Analytics
+            { id: 'desc1', stage: 'Analytics, Insights and Data Analytics', name: 'Data Lake Platform Implemented (CDP)', status: 'realizado' },
+            { id: 'desc2', stage: 'Analytics, Insights and Data Analytics', name: 'Data Warehouse Capability Begins (CDP)', status: 'em-andamento' },
+            { id: 'desc3', stage: 'Analytics, Insights and Data Analytics', name: 'Digital Marketing Platforms Responsibility', status: 'em-andamento' },
+            { id: 'desc4', stage: 'Analytics, Insights and Data Analytics', name: 'Mobile Engagement Management Office', status: 'nao-iniciado' },
+            
+            // Audience Segmentation and Activation
+            { id: 'pres1', stage: 'Audience Segmentation and Activation', name: 'Customer Analytics & Heat Maps Capability Begins', status: 'em-andamento' },
+            { id: 'pres2', stage: 'Audience Segmentation and Activation', name: 'Self-Service Analytics Optimization Begins', status: 'nao-iniciado' },
+            { id: 'pres1', stage: 'Audience Segmentation and Activation', name: 'Customer Analytics & Heat Maps Capability Begins', status: 'em-andamento' },
+            { id: 'pres2', stage: 'Audience Segmentation and Activation', name: 'Self-Service Analytics Optimization Begins', status: 'nao-iniciado' },
+            
+            // Personalization at scale
+            { id: 'cog1', stage: 'Personalization at scale', name: 'Voice of the Customer / Survey Feedback integrated with respondent\'s engagement', status: 'nao-iniciado' },
+            { id: 'cog1', stage: 'Personalization at scale', name: 'Voice of the Customer / Survey Feedback integrated with respondent\'s engagement', status: 'nao-iniciado' },
+            { id: 'cog1', stage: 'Personalization at scale', name: 'Voice of the Customer / Survey Feedback integrated with respondent\'s engagement', status: 'nao-iniciado' },
+            { id: 'cog1', stage: 'Personalization at scale', name: 'Voice of the Customer / Survey Feedback integrated with respondent\'s engagement', status: 'nao-iniciado' },
+            
+            { id: 'cog2', stage: 'Conversion and LTV Optimization', name: 'Integration with Database Marketing Platforms (DSP)', status: 'nao-iniciado' },
+            { id: 'cog2', stage: 'Conversion and LTV Optimization', name: 'Integration with Database Marketing Platforms (DSP)', status: 'nao-iniciado' },
+            { id: 'cog2', stage: 'Conversion and LTV Optimization', name: 'Integration with Database Marketing Platforms (DSP)', status: 'nao-iniciado' },
+            { id: 'cog2', stage: 'Conversion and LTV Optimization', name: 'Integration with Database Marketing Platforms (DSP)', status: 'nao-iniciado' },
+        ];
+*/
+        const statusOptions = {
+            'nao-iniciado': { label: 'Não Iniciado', class: 'status-nao-iniciado' },
+            'em-andamento': { label: 'Em Andamento', class: 'status-em-andamento' },
+            'realizado': { label: 'Realizado', class: 'status-realizado' }, 
+            'atrasado': { label: 'Atrasado', class: 'status-atrasado' },
+            'critico': { label: 'Crítico', class: 'status-critico' }
+        };
+
+        //const stages = ['Proprietary Data Organization (1st. party data)', 'Foundation and Modernization of the Data Architecture', 'Analytics, Insights and Data Analytics', 'Audience Segmentation and Activation', 'Personalization at scale', 'Conversion and LTV Optimization'];
+        var stages = [];
+        stages.push("Organização de Dados");
+
+        stages.push("Diagnóstico");
+        stages.push("Descritivo");
+        stages.push("Preditivo");
+        stages.push("Prescritivo");
+        stages.push("Cognitivo");
+
+        // --- ELEMENTOS DO DOM ---
+        const capabilitiesListContainer = document.getElementById('capabilities-list');
+        const graphCanvas = document.getElementById('graph-canvas');
+        const roadmapPointsContainer = document.getElementById('roadmap-points');
+        const stageElementsContainer = document.getElementById('stage-elements-container');
+        const rocketContainer = document.getElementById('rocket-container');
+        const roadmapPath = document.getElementById('roadmap-path');
+
+        // --- FUNÇÕES DE RENDERIZAÇÃO ---
+
+        function renderCapabilitiesList() {
+            const groupedByStage = capabilitiesData.reduce((acc, item) => {
+                acc[item.stage] = acc[item.stage] || [];
+                acc[item.stage].push(item);
+                return acc;
+            }, {});
+
+            capabilitiesListContainer.innerHTML = ''; 
+            
+            stages.forEach(stageName => {
+                if (groupedByStage[stageName]) {
+                    const stageDiv = document.createElement('div');
+                    stageDiv.innerHTML = `<h3 class="text-lg font-semibold text-sky-600 border-b-2 border-sky-200 pb-2 mb-3">${stageName}</h3>`;
+                    
+                    groupedByStage[stageName].forEach(cap => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'flex items-center justify-between py-2';
+                        
+                        const selectOptions = Object.keys(statusOptions).map(key => 
+                            `<option value="${key}" ${cap.status === key ? 'selected' : ''}>${statusOptions[key].label}</option>`
+                        ).join('');
+
+                        itemDiv.innerHTML = `
+                            <span class="text-sm text-slate-700 flex-1 pr-2">${cap.name}</span>
+                            <select data-id="${cap.id}" class="status-select text-sm rounded-md border-slate-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 w-40">
+                                ${selectOptions}
+                            </select>
+                        `;
+                        stageDiv.appendChild(itemDiv);
+                    });
+                    capabilitiesListContainer.appendChild(stageDiv);
+                }
+            });
+
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', handleStatusChange);
+            });
+        }
+        
+        function getQuadraticBezierXY(t, p0, p1, p2) {
+            const x = Math.pow(1 - t, 2) * p0.x + 2 * (1 - t) * t * p1.x + Math.pow(t, 2) * p2.x;
+            const y = Math.pow(1 - t, 2) * p0.y + 2 * (1 - t) * t * p1.y + Math.pow(t, 2) * p2.y;
+            return { x, y };
+        }
+        
+        function getQuadraticBezierAngle(t, p0, p1, p2) {
+            const dx = 2 * (1 - t) * (p1.x - p0.x) + 2 * t * (p2.x - p1.x);
+            const dy = 2 * (1 - t) * (p1.y - p0.y) + 2 * t * (p2.y - p1.y);
+            return Math.atan2(dy, dx) * (180 / Math.PI);
+        }
+
+        function renderRoadmap() {
+            if (!graphCanvas || !graphCanvas.offsetWidth) {
+                setTimeout(renderRoadmap, 50);
+                return;
+            }
+
+            roadmapPointsContainer.innerHTML = '';
+            stageElementsContainer.innerHTML = '';
+
+            const totalPoints = capabilitiesData.length;
+            const containerWidth = graphCanvas.offsetWidth;
+            const containerHeight = graphCanvas.offsetHeight;
+
+            // Pontos da curva de Bézier (início, controle, fim) - Curva mais horizontal e suave
+            const p0 = { x: 40, y: containerHeight - 150 };
+            const p1 = { x: containerWidth * 0.5, y: containerHeight - 50 };
+            const p2 = { x: containerWidth - 40, y: 250 };
+            
+            const pathData = `M ${p0.x} ${p0.y} Q ${p1.x} ${p1.y} ${p2.x} ${p2.y}`;
+            roadmapPath.setAttribute('d', pathData);
+
+            // 1. Desenhar pontos e suas legendas
+            capabilitiesData.forEach((cap, index) => {
+                const point = document.createElement('div');
+                point.id = `point-${cap.id}`;
+                point.className = `w-5 h-5 rounded-full absolute border-2 cursor-pointer transition-all duration-300 ${statusOptions[cap.status].class}`;
+                
+                const t = (index + 0.5) / totalPoints;
+                const coords = getQuadraticBezierXY(t, p0, p1, p2);
+
+                point.style.left = `${coords.x}px`;
+                point.style.top = `${coords.y}px`;
+                point.style.transform = 'translate(-50%, -50%)';
+                
+                const label = document.createElement('div');
+                // Alterna a classe da legenda para posicionar acima ou abaixo
+                label.className = (index % 2 === 0) ? 'point-label-above' : 'point-label-below';
+                label.textContent = cap.name;
+                point.appendChild(label);
+
+                roadmapPointsContainer.appendChild(point);
+            });
+            
+            // 2. Mapear os índices de cada fase
+            const stageInfo = stages.map(stageName => {
+                const indices = capabilitiesData
+                    .map((cap, i) => (cap.stage === stageName ? i : -1))
+                    .filter(i => i !== -1);
+                if (indices.length === 0) return null;
+                return {
+                    name: stageName,
+                    firstIndex: indices[0],
+                    lastIndex: indices[indices.length - 1],
+                    middleIndex: indices[Math.floor(indices.length / 2)],
+                };
+            }).filter(Boolean);
+
+
+            // 3. Desenhar títulos e linhas divisórias
+            stageInfo.forEach((stage, i) => {
+                // Título da fase
+                const title_t = (stage.middleIndex + 0.5) / totalPoints;
+                const titleCoords = getQuadraticBezierXY(title_t, p0, p1, p2);
+                const titleEl = document.createElement('div');
+                titleEl.className = 'main-stage-title';
+                titleEl.textContent = stage.name.toUpperCase();
+                // Aumenta a distância do título em relação à curva
+                titleEl.style.left = `${titleCoords.x}px`;
+                titleEl.style.top = `${titleCoords.y - 200}px`; 
+                stageElementsContainer.appendChild(titleEl);
+
+                // Linha divisória (exceto para a primeira fase)
+                if (i > 0) {
+                    const delimiter_t = (stage.firstIndex - 0.5) / totalPoints; 
+                    const delimiterCoords = getQuadraticBezierXY(delimiter_t, p0, p1, p2);
+                    const delimiterEl = document.createElement('div');
+                    delimiterEl.className = 'stage-delimiter';
+                    delimiterEl.style.left = `${delimiterCoords.x}px`;
+                    delimiterEl.style.top = `${delimiterCoords.y - 100}px`;
+                    stageElementsContainer.appendChild(delimiterEl);
+                }
+            });
+
+            // 4. Posicionar o foguete
+            const rocket_t = 1.02; // Levemente para fora da curva
+            const rocketCoords = getQuadraticBezierXY(rocket_t, p0, p1, p2);
+            const rocketAngle = getQuadraticBezierAngle(rocket_t, p0, p1, p2);
+            rocketContainer.style.left = `${rocketCoords.x}px`;
+            rocketContainer.style.top = `${rocketCoords.y}px`;
+            rocketContainer.style.transform = `translate(-50%, -50%) rotate(${rocketAngle + 5}deg)`;
+        }
+
+        function handleStatusChange(event) {
+            const capabilityId = event.target.dataset.id;
+            const newStatus = event.target.value;
+
+            const capability = capabilitiesData.find(c => c.id === capabilityId);
+            if (capability) {
+                capability.status = newStatus;
+            }
+
+            const point = document.getElementById(`point-${capabilityId}`);
+            if (point) {
+                point.classList.remove('status-nao-iniciado', 'status-em-andamento', 'status-realizado', 'status-atrasado');
+                point.classList.add(statusOptions[newStatus].class);
+            }
+        }
+
+        function init() {
+            renderCapabilitiesList();
+            renderRoadmap();
+        }
+        
+        window.addEventListener('resize', renderRoadmap);
+        window.onload = init;
+
+    </script>
+</body>
+</html>
